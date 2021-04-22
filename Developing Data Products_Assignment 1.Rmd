@@ -1,0 +1,78 @@
+---
+title: "Peer-graded Assignment: R Markdown and Leaflet"
+author: "Manuel Alejandro Jiménez Torres"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: no
+    toc_float: yes
+    theme: cosmo
+    keep_md: no
+    df_print: paged
+  pdf_document:
+    toc: yes
+    df_print: kable
+    number_sections: false
+    fig_caption: yes
+    highlight: tango
+    dev: pdf
+  word_document:
+    toc: yes
+    df_print: paged
+    keep_md: no
+---
+
+## Summary
+
+This web page corresponds to the first assignment of the Developing Data Products course offered through Coursera from Johns Hopkins University.
+
+The repository of the work can be found at the following link: <a target="_blank" href="https://github.com/alejimdro/R-Markdown-and-Leaflet">Developing Data Products_Assignment 1</a>
+
+## Description
+
+In my opinion, as a family or with friends, the indicated places are the most suitable to spend a pleasant moment. All these places offer chicken, that's the reason for the image.
+
+The page was built in **RStudio** using **R Markdown and the Leaflet** package to build an interactive map.
+
+```{r setup, include = FALSE}
+# set knitr options
+knitr::opts_chunk$set(echo = TRUE, fig.path = 'figures/')
+# clear the global workspace (including hidden objects)
+rm(list = ls(all.names = TRUE))
+# set working directory
+setwd("https://github.com/alejimdro/R-Markdown-and-Leaflet")
+# free up memory and display statistics on free memory
+gc()
+```
+
+```{r hot-wing-locations-map, message = FALSE, echo = TRUE}
+library(knitr)
+library(leaflet)
+hwIcon <- makeIcon(
+  iconUrl = "Figures/food-people.png",
+  iconWidth = 25,
+  iconHeight = 50
+)
+hwLocations <- data.frame(name = c("The Flame BBQ",
+                                   "The Sports Grille Cranberry",
+                                   "Kings Family",
+                                   "El Campesino"),
+                          lat = c(40.684667,
+                                  40.68623,
+                                  40.45082,
+                                  40.867617),
+                          lng = c(-80.109943,
+                                  -80.101728,
+                                  -80.182565,
+                                  -79.922441))
+hwPopup <- c(
+  "<a href = 'http://theflamebbq.com/' target = '_blank'>The Flame BBQ</a>",
+  "<a href = 'https://www.thesportsgrillecranberry.com/' target = '_blank'>The Sports Grille Cranberry</a>",
+  "<a href = 'https://www.kingsfamily.com/' target = '_blank'>Kings Family</a>",
+  "<a href = 'https://elcampesinopgh.com/' target = '_blank'>El Campesino</a>"
+)
+hwLocations %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(icon = hwIcon, popup = hwPopup)
+```
